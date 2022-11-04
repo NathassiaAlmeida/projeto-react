@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from '../../styles/Header.module.css';
 import { css} from '@emotion/css';
 import styled from '@emotion/styled';
+import Input from '../Form/Input/Input';
+import Button from '../Form/Button/Button';
 
 const HeaderPage = styled.header`
 background-color: #e1e1e1;
@@ -13,27 +15,9 @@ justify-content: space-between;
 padding: 0 10%;
 `
 
-const Input = styled.input`
-  width: 190px;
-  line-height: 30px;
-  padding-left: 8px;
-  border-radius:10px;
-  border: none;
-  background-color: #fff;
-  box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
-  outline-color: orange;
-}`
 
-const Button = styled.button`
-  padding: 8px;
-  width: 100px;
-  border-radius:10%;
-  border: none;
-  &:hover{
-    background-color: #ddd;
-    cursos: pointer;
-  }
-}`
+
+
 
 //CSS
 // 5 maneiras diferentes de utilizar css
@@ -51,9 +35,29 @@ const Button = styled.button`
 type HeaderProps = {
   menu?: Array<string>;
   pesquisar?: string;
+  name?: string;
 }
 
+// type UserType = {
+//   email: string;
+//   password: string;
+// }
+
+// type User = HeaderProps | UserType;
+
+// interface IHeaderProps {
+//   menu?: Array<string>;
+//   pesquisar?: string;
+//   name?: string;
+// }
+
 export default function Header(props:HeaderProps) {
+
+  //Sempre que vamos trabalhar com state, para armazenar valores
+  // temos o getters & setters.
+  const [userAuth, setUserAuth] = useState<boolean>(true);
+  const [nameUser, setNameUser] = useState<string | undefined>(props.name);
+
   return (
    // <header className={styles['menu-site']}> - utilizando CSS modules
         <HeaderPage>
@@ -65,7 +69,7 @@ export default function Header(props:HeaderProps) {
             margin:0px
             padding:0;
             >li {
-              min-width: 120px;
+              min-width: 80px;
               text-align: center;
               list-style: none;
             }
@@ -76,9 +80,13 @@ export default function Header(props:HeaderProps) {
               <li>Contato</li>
             </ul>
         </nav>
+
+        {userAuth && (<div>
+          <span>Seja bem vindo {nameUser?nameUser:" visitante"}</span>
+        </div>)}
         <div>
         <Input type='text' placeholder='Pesquisar'/>
-        <Button>{props.pesquisar? props.pesquisar:"Search"}</Button>
+        <Button disabled>{props.pesquisar? props.pesquisar:"Search"}</Button>
         </div>
         </HeaderPage>
  //   </header>
